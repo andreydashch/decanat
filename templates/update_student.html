@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>EuropeanUniversity</title>
+
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='input_form.css')}}">
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='index.css')}}">
+</head>
+
+<body>
+    <div class="top_nav">
+        <a href="/">Головна</a>
+        <a href="add_student">Додати студента</a>
+        <a  class="active" href="update_student">Редагувати студента</a>
+        <div class="auth_nav">
+            <a  href="account">{{data["user"].name}}</a>
+        </div>
+    </div>
+
+    <main class="form-sign">
+        <form action="" method="post">
+            <div class="form-floating">
+                <input class="form-control" name="name" id="input_name" value="{{student.name}}" required>
+                <label for="input_name">ФІО</label>
+            </div>
+            <div class="form-floating">
+                <input class="form-control" name="email" id="input_email" value="{{student.email}}" required>
+                <label for="input_email">Email адреса</label>
+            </div>
+
+            <div class="form-floating">
+                <input class="form-control" name="group" id="input_group" value="{{student.group}}" required>
+                <label for="input_group">Група</label>
+            </div>
+
+            <div class="btn_container">
+                <button class="btn btn-lg" type="submit">Оновити</button>
+            </div>
+      </form>
+  </main>
+
+    {% if is_confirm %}
+    <script>
+        alert("Студента успішно оновлено!");
+    </script>
+    {% endif %}
+
+</body>
+</html>

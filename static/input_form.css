@@ -1,0 +1,72 @@
+.form-sign {
+  position: relative;
+  width: 100%;
+  border-radius: 3px;
+}
+
+form {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 15px;
+  width: 80%;
+  top: 1em;
+  left: 10%;
+}
+
+form .form-control:focus {
+  border-color:#ced4da;
+  box-shadow: 5px 5px 30px rgba(0,0,0,0.2);
+}
+
+form .btn {
+  position: relative;
+  margin-top: 0.5em;
+  width: 20%;
+  left: 40%;
+
+  color: #fff;
+  background-color: #292039;
+}
+
+form .btn:hover, .btn:focus {
+  background-color: #2196F3;
+  color: white;
+  box-shadow:none;
+}
+
+form .btn_container {
+  position: relative;
+  width: 100%;
+}
+
+form .copyright {
+  text-align:center;
+  color:rgba(255,255,255,0.65);
+}
+
+form .form-control {
+  background:rgba(255,255,255,0.9);
+}
+
+form label {
+  font-size:0.9em;
+}
+
+form input {
+  position:relative;
+}
+
+form .form-floating {
+  position:relative;
+  min-width: 330px;
+  width: 24%;
+  margin-left:1%;
+  margin-bottom: 1%;
+}
+
+form .form-floating.focus-within {
+  z-index: 2;
+}
+
+

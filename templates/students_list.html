@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>EuropeanUniversity</title>
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='index.css')}}">
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='students_list.css')}}">
+</head>
+
+<body>
+<div class="top_nav">
+    <a href="/">Головна</a>
+    <a  href="add_student">Додати студента</a>
+    <a  href="update_student">Редагувати студента</a>
+    <div class="auth_nav">
+        <a  href="account">{{data["user"].name}}</a>
+    </div>
+</div>
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>ФІО</th>
+        <th>Email адреса</th>
+        <th>Група</th>
+    </tr>
+
+    {%for student in students_list%}
+
+    <tr class=clickable onclick="window.location.href='/update_student?id={{student.id}}'">
+        <td>{{student.id}}</td>
+        <td>{{student.name}}</td>
+        <td>{{student.email}}</td>
+        <td>{{student.group}}</td>
+    </tr>
+
+    {%endfor%}
+
+</table>
+
+
+
+</body>
+</html>
+
