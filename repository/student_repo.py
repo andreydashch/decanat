@@ -6,12 +6,45 @@ conn = Conn()
 
 def save_student(student: Student) -> bool:
 
-    sql = ("INSERT INTO student(name, email, enable_status, std_group)"
-           "VALUES('{name}', '{email}', '{enable_status}', '{group}');").format(
+    sql = ("INSERT INTO student(name, email, enable_status, std_group,"
+           "birth_date, birth_place, citizenship, family_state, idcard,"
+           "phone_number, home_address, registration_address,"
+           "faculty, education_level, education_form, speciality, education_program,"
+           "admission_benefits, enrolment_order_number, enrolment_order_date,"
+           "school_name, school_graduation_date)"
+           "VALUES('{name}', '{email}', '{enable_status}', '{group}',"
+           "'{birth_date}', '{birth_place}', '{citizenship}', '{family_state}', '{idcard}',"
+           "'{phone_number}', '{home_address}', '{registration_address}',"
+           "'{faculty}', '{education_level}', '{education_form}', '{speciality}', '{education_program}',"
+           "'{admission_benefits}', '{enrolment_order_number}', '{enrolment_order_date}',"
+           "'{school_name}', '{school_graduation_date}');").format(
         name=student.name,
         email=student.email,
         enable_status=student.enable_status,
-        group=student.group
+        group=student.group,
+
+        birth_date=student.birth_date,
+        birth_place=student.birth_place,
+        citizenship=student.citizenship,
+        family_state=student.family_state,
+        idcard=student.idcard,
+
+        phone_number=student.phone_number,
+        home_address=student.home_address,
+        registration_address=student.registration_address,
+
+        faculty=student.faculty,
+        education_level=student.education_level,
+        education_form=student.education_form,
+        speciality=student.speciality,
+        education_program=student.education_program,
+
+        admission_benefits=student.admission_benefits,
+        enrolment_order_number=student.enrolment_order_number,
+        enrolment_order_date=student.enrolment_order_date,
+
+        school_name=student.school_name,
+        school_graduation_date=student.school_graduation_date
     )
 
     return conn.exec_sql(sql)
