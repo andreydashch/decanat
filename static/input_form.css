@@ -3,17 +3,26 @@
   width: 100%;
   border-radius: 3px;
 }
+h1 {
+    position: relative;
+    margin-top: 1em;
+    color: white;
+}
 
 form {
   position: relative;
+  flex-wrap: wrap;
+  width: 80%;
+  left: 10%;
+}
+
+.input_block {
+  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: center;
+
   flex-wrap: wrap;
   padding: 15px;
-  width: 80%;
-  top: 1em;
-  left: 10%;
+  top: 0.5em;
 }
 
 form .form-control:focus {
@@ -24,6 +33,7 @@ form .form-control:focus {
 form .btn {
   position: relative;
   margin-top: 0.5em;
+  margin-bottom: 5em;
   min-width: 200px;
   width: 20%;
   color: #fff;
@@ -55,6 +65,7 @@ form .form-control {
 
 form label {
   font-size:0.9em;
+  font-weight: bold;
 }
 
 form input {
@@ -72,5 +83,4 @@ form .form-floating {
 form .form-floating.focus-within {
   z-index: 2;
 }
-
 
