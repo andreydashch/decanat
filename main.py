@@ -32,10 +32,13 @@ def add_student():
 
 @app.route('/search_student', methods=['POST', 'GET'])
 def search():
+    group = request.args.get("group")
+    students = studnet_service.get_students_by_group(group)
 
     return render_template(
         'search_student.html',
-        data={"user": user}
+        data={"user": user},
+        students_list=students
     )
 
 

@@ -7,11 +7,36 @@ main {
 
 .search_container {
     width: 25%;
-    height: 500px;
-    padding-top: 1em;
-    padding-left: 1em;
     margin-left: 1em;
-    background-color: #292039;
+}
+
+.search_container input {
+    width: 100%;
+    height: 3em;
+}
+
+input:focus{
+    outline: none;
+    border:1px solid #2196F3;
+}
+
+.search_container .btn {
+  position: relative;
+  float: right;
+  margin-right: 0.5em;
+  margin-top: -2.6em;
+  padding-bottom: 0.1em
+  height: 2em;
+  width: 20%;
+  min-width: 100px;
+  color: #fff;
+  background-color: #292039;
+}
+
+.search_container .btn:hover, .btn:focus {
+  background-color: #2196F3;
+  color: white;
+  box-shadow:none;
 }
 
 .search_block {
@@ -25,6 +50,10 @@ table {
     width: 55%;
     height: min-content;
     border-collapse: collapse;
+}
+
+tr {
+    height: 3em;
 }
 
 td, th {
