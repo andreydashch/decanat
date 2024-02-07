@@ -30,6 +30,15 @@ def add_student():
     )
 
 
+@app.route('/search_student', methods=['POST', 'GET'])
+def search():
+
+    return render_template(
+        'search_student.html',
+        data={"user": user}
+    )
+
+
 @app.route('/students_list', methods=['POST', 'GET'])
 def students_list():
     group = request.args.get("group")
