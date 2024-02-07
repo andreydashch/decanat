@@ -7,6 +7,11 @@ class Conn:
         self.conn = psycopg2.connect(dbname='decanat', user='decanat',
                                      password='decanat', host='localhost')
 
+    def reconnect(self):
+        self.conn.close()
+        self.conn = psycopg2.connect(dbname='decanat', user='decanat',
+                                     password='decanat', host='localhost')
+
     def exec_sql(self, sql):
         try:
             with self.conn.cursor() as cursor:
@@ -16,6 +21,7 @@ class Conn:
 
                 return True
         except Exception as e:
+            self.reconnect()
             print(e)
             return False
 
@@ -23,10 +29,9 @@ class Conn:
         try:
             with self.conn.cursor() as cursor:
                 cursor.execute(sql)
-
                 self.conn.commit()
-
                 return cursor.fetchall()
         except Exception as e:
+            self.reconnect()
             print(e)
             return []
