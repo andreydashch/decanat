@@ -63,6 +63,6 @@ def update_student():
         student=student
     )
 
-if __name__ == '__main__':
 
+if __name__ == '__main__':
     app.run()

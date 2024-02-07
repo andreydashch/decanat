@@ -7,6 +7,8 @@
 form {
   position: relative;
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   padding: 15px;
   width: 80%;
@@ -22,9 +24,8 @@ form .form-control:focus {
 form .btn {
   position: relative;
   margin-top: 0.5em;
+  min-width: 200px;
   width: 20%;
-  left: 40%;
-
   color: #fff;
   background-color: #292039;
 }
@@ -37,6 +38,9 @@ form .btn:hover, .btn:focus {
 
 form .btn_container {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
 }
 
