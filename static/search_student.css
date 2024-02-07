@@ -1,0 +1,42 @@
+main {
+    position: relative;
+    display: flex;
+    top: 2em;
+    left: 10%;
+}
+
+.search_container {
+    width: 25%;
+    height: 500px;
+    padding-top: 1em;
+    padding-left: 1em;
+    margin-left: 1em;
+    background-color: #292039;
+}
+
+.search_block {
+    position: relative;
+
+}
+
+table {
+    position: relative;
+    color: #e9e9e9;
+    width: 55%;
+    height: min-content;
+    border-collapse: collapse;
+}
+
+td, th {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(odd) {
+    border-color:#292039;
+    background-color: #292039;
+}
+
+.clickable:hover {
+    background-color: #2196F3;
+}
