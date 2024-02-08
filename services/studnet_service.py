@@ -40,8 +40,9 @@ def save_student(student: Student) -> bool:
 
 def get_students_by_group(group) -> [Student]:
     students = []
-    for raw in student_repo.get_students_by_group(group):
-        students.append(_create_student_from_raw(raw))
+    if group is not None:
+        for raw in student_repo.get_students_by_group(group):
+            students.append(_create_student_from_raw(raw))
 
     return students
 
