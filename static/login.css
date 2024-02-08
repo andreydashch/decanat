@@ -1,0 +1,32 @@
+main {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  top: 3em;
+}
+
+
+.greeting_block {
+    color: white;
+    text-align:center;
+    width:100%;
+}
+
+.btn {
+  position: relative;
+  margin-top: 2em;
+  margin-bottom: 5em;
+  min-width: 200px;
+  width: 20%;
+  color: #fff;
+  background-color: #292039;
+}
+
+.btn:hover, .btn:focus {
+  background-color: #2196F3;
+  color: white;
+  box-shadow:none;
+}
+
