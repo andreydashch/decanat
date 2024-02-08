@@ -1,14 +1,14 @@
 from cryptography.fernet import Fernet
 
-key = open("secret.key", "rb").read()
+key = open("repository/encripter/secret.key", "rb").read()
 cipher_suite = Fernet(key)
 
 
 def encrypt(text):
-    text = text.encode("utf8")
+    text = str(text).encode("utf8")
     return cipher_suite.encrypt(text).decode()
 
 
 def decrypt(text):
-    text = text.encode("utf8")
+    text = str(text).encode("utf8")
     return cipher_suite.decrypt(text).decode()
