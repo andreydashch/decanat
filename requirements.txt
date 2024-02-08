@@ -2,3 +2,8 @@ flask
 psycopg2-binary
 cryptography
 
+requests
+Flask
+oauthlib
+pyOpenSSL
+Flask-Login
