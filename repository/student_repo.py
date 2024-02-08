@@ -69,7 +69,7 @@ def get_students_by_group(group):
 
 
 def get_student_by_id(id):
-    sql = ("SELECT id, name, email, enable_status, std_group FROM student "
+    sql = ("SELECT * FROM student "
            "WHERE id = '{id}';").format(
         id=id
     )
@@ -84,13 +84,41 @@ def get_student_by_id(id):
 
 
 def update_student(student):
-    sql = ("UPDATE student SET name='{name}', email='{email}',"
-           " enable_status='{enable_status}', std_group='{group}' WHERE id={id}").format(
+    sql = ("UPDATE student SET name='{name}', email='{email}', enable_status='{enable_status}', std_group='{group}',"
+           "birth_date='{birth_date}', birth_place='{birth_place}', citizenship='{citizenship}', family_state='{family_state}', idcard='{idcard}',"
+           "phone_number='{phone_number}', home_address='{home_address}', registration_address='{registration_address}',"
+           "faculty='{faculty}', education_level='{education_level}', education_form='{education_form}', speciality='{speciality}', education_program='{education_program}',"
+           "admission_benefits='{admission_benefits}', enrolment_order_number='{enrolment_order_number}', enrolment_order_date='{enrolment_order_date}',"
+           "school_name='{school_name}', school_graduation_date='{school_graduation_date}'"
+           " WHERE id={id}").format(
         name=student.name,
         email=student.email,
         enable_status=student.enable_status,
         group=student.group,
-        id=student.id
+        id=student.id,
+
+        birth_date=encrypt(student.birth_date),
+        birth_place=encrypt(student.birth_place),
+        citizenship=encrypt(student.citizenship),
+        family_state=encrypt(student.family_state),
+        idcard=encrypt(student.idcard),
+
+        phone_number=encrypt(student.phone_number),
+        home_address=encrypt(student.home_address),
+        registration_address=encrypt(student.registration_address),
+
+        faculty=encrypt(student.faculty),
+        education_level=encrypt(student.education_level),
+        education_form=encrypt(student.education_form),
+        speciality=encrypt(student.speciality),
+        education_program=encrypt(student.education_program),
+
+        admission_benefits=encrypt(student.admission_benefits),
+        enrolment_order_number=encrypt(student.enrolment_order_number),
+        enrolment_order_date=encrypt(student.enrolment_order_date),
+
+        school_name=encrypt(student.school_name),
+        school_graduation_date=encrypt(student.school_graduation_date)
     )
 
     return conn.exec_sql(sql)

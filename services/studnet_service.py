@@ -51,6 +51,30 @@ def _create_student_from_raw(raw):
     student = Student(raw[1], raw[2], raw[3], raw[4])
     student.id = raw[0]
 
+    if len(raw) > 5:
+        student.birth_date = raw[5]
+        student.birth_place = raw[6]
+        student.citizenship = raw[7]
+        student.family_state = raw[8]
+        student.idcard = raw[9]
+
+        student.phone_number = raw[10]
+        student.home_address = raw[11]
+        student.registration_address = raw[12]
+
+        student.faculty = raw[13]
+        student.education_level = raw[14]
+        student.education_form = raw[15]
+        student.speciality = raw[16]
+        student.education_program = raw[17]
+
+        student.admission_benefits = raw[18]
+        student.enrolment_order_number = raw[19]
+        student.enrolment_order_date = raw[20]
+
+        student.school_name = raw[21]
+        student.school_graduation_date = raw[22]
+
     return student
 
 
