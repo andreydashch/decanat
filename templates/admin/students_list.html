@@ -14,9 +14,12 @@
     <a href="/">Головна</a>
     <a  href="add_student">Додати студента</a>
     <a href="search_student">Пошук</a>
-    <div class="auth_nav">
-        <a  href="account">{{data["user"].name}}</a>
-    </div>
+        <div class="auth_nav">
+            <a  href="account">
+                {{data["user"].name}}
+                <img class=profile_img src="{{data['user'].google_profile_pic}}" alt="Google profile pic">
+            </a>
+        </div>
 </div>
 
 <table>

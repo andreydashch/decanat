@@ -17,7 +17,10 @@
         <a  class="active" href="javascript:window.location.href=window.location.href">Редагувати студента</a>
         <a href="search_student">Пошук</a>
         <div class="auth_nav">
-            <a  href="account">{{data["user"].name}}</a>
+            <a  href="account">
+                {{data["user"].name}}
+                <img class=profile_img src="{{data['user'].google_profile_pic}}" alt="Google profile pic">
+            </a>
         </div>
     </div>
 
