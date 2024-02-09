@@ -1,8 +1,8 @@
 from entities.student import Student
-from repository.db_conection import Conn
+from repository.db_conection import get_conn
 from repository.encripter.encripter import encrypt, decrypt
 
-conn = Conn()
+conn = get_conn()
 
 
 def save_student(student: Student) -> bool:
