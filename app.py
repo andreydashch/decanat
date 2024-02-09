@@ -77,7 +77,7 @@ def add_student():
         print(is_confirm)
 
     return render_template(
-        'add_student.html',
+        'admin/add_student.html',
         data={"user": user},
         is_confirm=is_confirm
     )
@@ -91,7 +91,7 @@ def search():
     students = studnet_service.get_students_by_group(group)
 
     return render_template(
-        'search_student.html',
+        'admin/search_student.html',
         data={"user": user},
         students_list=students
     )
@@ -105,7 +105,7 @@ def students_list():
     students = studnet_service.get_students_by_group(group)
 
     return render_template(
-        'students_list.html',
+        'admin/students_list.html',
         data={"user": user},
         students_list=students
     )
@@ -128,7 +128,7 @@ def update_student():
     print(student.name)
 
     return render_template(
-        'update_student.html',
+        'admin/update_student.html',
         data={"user": user},
         is_confirm=is_confirm,
         student=student
@@ -150,7 +150,7 @@ def account():
 
     student = studnet_service.get_student_by_email(user.email)
     return render_template(
-        'update_student.html',
+        'admin/update_student.html',
         data={"user": user},
         is_confirm=is_confirm,
         student=student
@@ -159,12 +159,12 @@ def account():
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template('404.html'), 404
+    return render_template('errors/404.html'), 404
 
 
 @app.errorhandler(401)
 def page_not_found(error):
-    return render_template('unknown_user.html'), 401
+    return render_template('errors/unknown_user.html'), 401
 
 
 if __name__ == '__main__':
