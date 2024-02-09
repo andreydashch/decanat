@@ -112,15 +112,15 @@ def update_student():
     user = auth_check_for_role(["test"])
 
     is_confirm = False
-    id = request.args.get("id")
-    print(id)
+    std_id = request.args.get("id")
+    print(std_id)
     if request.method == "POST":
         student = studnet_service.create_student(request.form)
-        student.id = id
+        student.id = std_id
         is_confirm = studnet_service.update_student(student)
         print(is_confirm)
 
-    student = studnet_service.get_student_by_id(id)
+    student = studnet_service.get_student_by_id(std_id)
     print(student.name)
 
     return render_template(
@@ -136,11 +136,11 @@ def account():
     user = auth_check_for_role(["test"])
 
     is_confirm = False
-    id = request.args.get("id")
+    std_id = request.args.get("id")
 
     if request.method == "POST":
         student = studnet_service.create_student(request.form)
-        student.id = id
+        student.id = std_id
         is_confirm = studnet_service.update_student(student)
         print(is_confirm)
 
