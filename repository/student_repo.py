@@ -55,7 +55,7 @@ def get_students_by_group(group):
            "WHERE std_group = '{group}';").format(
         group=group
     )
-    print(encrypt(group))
+
     res = conn.exec_select_sql(sql)
 
     decrypt_res_list = []
@@ -64,7 +64,7 @@ def get_students_by_group(group):
         for el_index in range(len(res[student_index]) - 5):
             decrypt_res.append(decrypt(res[student_index][el_index + 5]))
         decrypt_res_list.append(decrypt_res)
-    print(decrypt_res_list)
+
     return decrypt_res_list
 
 
