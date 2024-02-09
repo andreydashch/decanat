@@ -11,16 +11,23 @@ class Role:
             self.name = "Student"
         elif str_role == "TEACHER":
             self.name = "Teacher"
+        elif str_role == "TEST":
+            self.name = "Test"
         else:
             self.name = None
+            print("Unsupported role: " + str_role)
 
 
-class UserRoles:
-    def __init__(self, roles_list: [str]):
+class RolesList:
+    def __init__(self, roles_list: [str] or [Role]):
         self.user_roles = []
 
         for str_role in roles_list:
-            self.user_roles.append(Role(str_role))
+            if isinstance(str_role, Role):
+                added_role = str_role
+            else:
+                added_role = Role(str_role)
+            self.user_roles.append(added_role)
 
     def has_role(self, checked_role: Role):
         for role in self.user_roles:
@@ -28,12 +35,20 @@ class UserRoles:
                 return True
         return False
 
-    def has_intersection(self, checked_roles_list: [Role]):
-        for checked_role in checked_roles_list:
+    def has_intersection(self, checked_roles_list):
+        for checked_role in checked_roles_list.user_roles:
             if self.has_role(checked_role):
                 return True
         return False
 
 
 def compare_roles(role_1: Role, role_2: Role):
+    if role_1.name is None:
+        return False
     return role_1.name == role_2.name
+
+
+ADMIN_ROLE = Role("admin")
+TEST_ROlE = Role("test")
+STUDENT_ROLE = Role("student")
+TEACHER_ROLE = Role("teacher")
