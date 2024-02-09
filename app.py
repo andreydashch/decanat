@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, abort
 from flask_login import LoginManager, current_user, login_required, logout_user
 from auth import authorization
 from auth.authorization import GoogleUser
@@ -14,14 +14,24 @@ app.secret_key = os.urandom(24)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-"""
-"<p>Hello, {}! You're logged in! Email: {}</p>"
-"<div><p>Google Profile Picture:</p>"
-'</div>'
-'<a class="button" href="/logout">Logout</a>'.format(
-    current_user.name, current_user.email, current_user.profile_pic
-)
-"""
+
+def auth_check_for_role(roles):
+    if not current_user.is_authenticated:
+        abort(404)
+
+    user = get_user_by_flask_current_user(current_user)
+
+    not_allowed = True
+    for role in roles:
+        if role in user.roles:
+            not_allowed = False
+
+    if not_allowed:
+        abort(404)
+
+    return user
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return GoogleUser.get(user_id)
@@ -54,13 +64,14 @@ def logout():
 
 @app.route('/add_student', methods=['POST', 'GET'])
 def add_student():
+    user = auth_check_for_role(["test"])
+
     is_confirm = False
     if request.method == "POST":
         student = studnet_service.create_student(request.form)
         is_confirm = studnet_service.save_student(student)
         print(is_confirm)
 
-    user = get_user_by_flask_current_user(current_user)
     return render_template(
         'add_student.html',
         data={"user": user},
@@ -70,10 +81,11 @@ def add_student():
 
 @app.route('/search_student', methods=['POST', 'GET'])
 def search():
+    user = auth_check_for_role(["test"])
+
     group = request.args.get("group")
     students = studnet_service.get_students_by_group(group)
 
-    user = get_user_by_flask_current_user(current_user)
     return render_template(
         'search_student.html',
         data={"user": user},
@@ -83,10 +95,11 @@ def search():
 
 @app.route('/students_list', methods=['POST', 'GET'])
 def students_list():
+    user = auth_check_for_role(["test"])
+
     group = request.args.get("group")
     students = studnet_service.get_students_by_group(group)
 
-    user = get_user_by_flask_current_user(current_user)
     return render_template(
         'students_list.html',
         data={"user": user},
@@ -96,6 +109,8 @@ def students_list():
 
 @app.route('/update_student', methods=['POST', 'GET'])
 def update_student():
+    user = auth_check_for_role(["test"])
+
     is_confirm = False
     id = request.args.get("id")
     print(id)
@@ -108,7 +123,6 @@ def update_student():
     student = studnet_service.get_student_by_id(id)
     print(student.name)
 
-    user = get_user_by_flask_current_user(current_user)
     return render_template(
         'update_student.html',
         data={"user": user},
@@ -119,6 +133,8 @@ def update_student():
 
 @app.route('/account', methods=['POST', 'GET'])
 def account():
+    user = auth_check_for_role(["test"])
+
     is_confirm = False
     id = request.args.get("id")
 
@@ -127,8 +143,6 @@ def account():
         student.id = id
         is_confirm = studnet_service.update_student(student)
         print(is_confirm)
-
-    user = get_user_by_flask_current_user(current_user)
 
     student = studnet_service.get_student_by_email(user.email)
     return render_template(
