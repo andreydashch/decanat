@@ -9,7 +9,7 @@ import requests
 
 from auth.googleuser import GoogleUser
 
-from auth.db import init_db_command
+from auth.session_db import init_db_command
 import resourse
 
 GOOGLE_CLIENT_ID = resourse.GOOGLE_CLIENT_ID
