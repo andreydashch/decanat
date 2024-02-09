@@ -2,7 +2,6 @@ import psycopg2
 
 
 class Conn:
-
     def __init__(self):
         self.conn = psycopg2.connect(dbname='decanat', user='decanat',
                                      password='decanat', host='localhost')
@@ -35,3 +34,10 @@ class Conn:
             self.reconnect()
             print(e)
             return []
+
+
+conn = Conn()
+
+
+def get_conn():
+    return conn
