@@ -114,7 +114,7 @@ def update_student():
 
     is_confirm = False
     std_id = request.args.get("id")
-    print(std_id)
+
     if request.method == "POST":
         student = studnet_service.create_student(request.form)
         student.id = std_id
@@ -122,7 +122,7 @@ def update_student():
         print(is_confirm)
 
     student = studnet_service.get_student_by_id(std_id)
-    print(student.name)
+
 
     return render_template(
         'admin/update_student.html',
