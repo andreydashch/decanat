@@ -41,6 +41,14 @@ class RolesList:
                 return True
         return False
 
+    def get_roles_strings(self) -> [str]:
+        roles_strings = []
+
+        for role in self.user_roles:
+            roles_strings.append(role.name)
+
+        return roles_strings
+
 
 def compare_roles(role_1: Role, role_2: Role):
     if role_1.name is None:

@@ -3,8 +3,9 @@ from entities.user_role import RolesList, Role
 
 class User:
     def __init__(self, name):
+        self.db_id = None
         self.name = name
-        self.roles = RolesList(["test"])
+        self.roles = None
 
         self.email = None
         self.google_name = None
@@ -15,3 +16,6 @@ class User:
 
     def has_role_intersection(self, checked_roles_list: RolesList):
         return self.roles.has_intersection(checked_roles_list)
+
+    def get_roles_strings(self):
+        return self.roles.get_roles_strings()
