@@ -122,3 +122,18 @@ def update_student(student):
     )
 
     return conn.exec_sql(sql)
+
+
+def get_student_by_email(email):
+    sql = ("SELECT * FROM student "
+           "WHERE email = '{email}';").format(
+        email=email
+    )
+
+    res = conn.exec_select_sql(sql)[0]
+
+    decrypt_res = list(res[0:5])
+    for el_index in range(len(res) - 5):
+        decrypt_res.append(decrypt(res[el_index + 5]))
+
+    return decrypt_res
