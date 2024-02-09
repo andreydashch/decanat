@@ -21,6 +21,10 @@ def auth_check_for_role(roles):
 
     user = get_user_by_flask_current_user(current_user)
 
+    if user.email == "uncknown_email@gmail.com":
+        logout_user()
+        abort(401)
+
     not_allowed = True
     for role in roles:
         if role in user.roles:
@@ -156,6 +160,11 @@ def account():
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
+
+
+@app.errorhandler(401)
+def page_not_found(error):
+    return render_template('unknown_user.html'), 401
 
 
 if __name__ == '__main__':
