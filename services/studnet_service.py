@@ -82,5 +82,9 @@ def get_student_by_id(id) -> Student:
     return _create_student_from_raw(student_repo.get_student_by_id(id))
 
 
+def get_student_by_email(email) -> Student:
+    return _create_student_from_raw(student_repo.get_student_by_email(email))
+
+
 def update_student(student: Student) -> bool:
     return student_repo.update_student(student)
