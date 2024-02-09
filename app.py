@@ -152,6 +152,9 @@ def account():
         student=student
     )
 
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
 
 if __name__ == '__main__':
     app.run(ssl_context=('static/certificate/cert.pem', 'static/certificate/key.pem'))
