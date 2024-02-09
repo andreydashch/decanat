@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, abort
 from flask_login import LoginManager, current_user, login_required, logout_user
 from auth import authorization
 from auth.authorization import GoogleUser
+from entities.user_role import RolesList, TEST_ROlE, ADMIN_ROLE, STUDENT_ROLE, TEACHER_ROLE
 from services import studnet_service
 from services.user_service import get_user_by_flask_current_user
 
@@ -25,12 +26,8 @@ def auth_check_for_role(roles):
         logout_user()
         abort(401)
 
-    not_allowed = True
-    for role in roles:
-        if role in user.roles:
-            not_allowed = False
-
-    if not_allowed:
+    roles = RolesList(roles)
+    if not user.has_role_intersection(roles):
         abort(404)
 
     return user
@@ -68,7 +65,7 @@ def logout():
 
 @app.route('/add_student', methods=['POST', 'GET'])
 def add_student():
-    user = auth_check_for_role(["test"])
+    user = auth_check_for_role([TEST_ROlE])
 
     is_confirm = False
     if request.method == "POST":
@@ -85,7 +82,7 @@ def add_student():
 
 @app.route('/search_student', methods=['POST', 'GET'])
 def search():
-    user = auth_check_for_role(["test"])
+    user = auth_check_for_role([TEST_ROlE])
 
     group = request.args.get("group")
     students = studnet_service.get_students_by_group(group)
@@ -99,7 +96,7 @@ def search():
 
 @app.route('/students_list', methods=['POST', 'GET'])
 def students_list():
-    user = auth_check_for_role(["test"])
+    user = auth_check_for_role([TEST_ROlE])
 
     group = request.args.get("group")
     students = studnet_service.get_students_by_group(group)
@@ -113,7 +110,7 @@ def students_list():
 
 @app.route('/update_student', methods=['POST', 'GET'])
 def update_student():
-    user = auth_check_for_role(["test"])
+    user = auth_check_for_role([TEST_ROlE])
 
     is_confirm = False
     std_id = request.args.get("id")
@@ -137,7 +134,7 @@ def update_student():
 
 @app.route('/account', methods=['POST', 'GET'])
 def account():
-    user = auth_check_for_role(["test"])
+    user = auth_check_for_role([TEST_ROlE])
 
     is_confirm = False
     std_id = request.args.get("id")
