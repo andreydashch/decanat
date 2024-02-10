@@ -1,10 +1,11 @@
 from entities.user import User
+from entities.user_role import RolesList
+from repository import user_repo
 
 
 def get_user_by_flask_current_user(current_user):
     user = get_user_by_email(current_user.email)
 
-    user.name = current_user.name
     user.google_email = current_user.email
     user.google_profile_pic = current_user.profile_pic
 
@@ -12,7 +13,19 @@ def get_user_by_flask_current_user(current_user):
 
 
 def get_user_by_email(email):
-    user = User("Дащик Андрій Сергійович")
-    user.email = email
+    raw = user_repo.get_user_by_email(email)
+
+    if raw is None:
+        return User(None)
+
+    return _create_user_from_raw(raw)
+
+
+def _create_user_from_raw(raw):
+    user = User(raw[1])
+
+    user.db_id = raw[0]
+    user.email = raw[2]
+    user.roles = RolesList(raw[3])
 
     return user
