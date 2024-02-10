@@ -9,11 +9,11 @@ body {
 
 .top_nav {
     z-index: 7;
-    overflow: hidden;
     position: fixed;
     width: 100%;
     top: 0;
-    overflow: hidden;
+    height: 54px;
+    overflow: visible;
     background-color: #e9e9e9;
 }
 
@@ -62,7 +62,44 @@ body {
     position: relative;
     width: 100%;
     top: 0;
-    overflow: hidden;
     background-color: #e9e9e9;
 }
+}
+
+
+
+.top_nav .mainmenubtn {
+    border: None;
+    cursor: pointer;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.top_nav .mainmenubtn:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+
+.top_nav .dropdown {
+    position: relative;
+    display: inline-block;
+    width: 300px;
+}
+.top_nav .dropdown-child {
+    display: None;
+    position: absolute;
+    background-color: #e9e9e9;
+}
+.top_nav .dropdown-child a {
+    width: 300px;
+    padding: 20px;
+    text-decoration: none;
+    display: block;
+}
+.top_nav .dropdown:hover .dropdown-child {
+    display: block;
 }
