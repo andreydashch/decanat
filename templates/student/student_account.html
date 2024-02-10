@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>EuropeanUniversity</title>
+
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='input_form.css')}}">
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='index.css')}}">
+</head>
+
+<body>
+
+    <div class="top_nav">
+        <a class="active" href="account">Особистий кабінет</a>
+        <a href="grades">Оцінки</a>
+
+
+        <div class="auth_nav dropdown">
+            <button  class="mainmenubtn" onclick="location.href='/account'">
+                {{data["user"].name}}
+                <img class=profile_img src="{{data['user'].google_profile_pic}}" alt="Google profile pic">
+            </button>
+
+            <div class="dropdown-child">
+                <a href="/account">Особистий кабінет</a>
+                {% block content %}
+                {%for role in data["user"].roles.user_roles%}
+
+                        {% if role.name == 'Admin' %}
+                            <a href="/search_student">Адмін</a>
+                        {% elif role.name == 'Teacher' %}
+                            <a href="/teacher">Вчитель</a>
+                        {% elif role.name == 'Student' %}
+                            <a href="/account">Студент</a>
+                        {% endif %}
+
+                {%endfor%}
+                {% endblock content %}
+                <a href="/logout">Вийти</a>
+            </div>
+        </div>
+    </div>
+
+    <main class="form-sign">
+        <form action="" method="post">
+            <h1>Особиста інформація</h1>
+            <div class="input_block">
+                <div class="form-floating">
+                    <input disabled class="form-control" name="name" id="input_name" value="{{student.name}}"  required>
+                    <label for="input_name">ФІО</label>
+                </div>
+                <div class="form-floating">
+                    <input disabled class="form-control" name="email" id="input_email" value="{{student.email}}" required>
+                    <label for="input_email">Email адреса</label>
+                </div>
+
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="birth_date" id="input_birth_date" value="{{student.birth_date}}" required>
+                    <label for="input_birth_date">Дата народження</label>
+                </div>
+
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="birth_place" id="input_birth_place" value="{{student.birth_place}}" required>
+                    <label for="input_birth_place">Місце народження</label>
+                </div>
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="citizenship" id="input_citizenship" value="{{student.citizenship}}" required>
+                    <label for="input_citizenship">Громадянство</label>
+                </div>
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="family_state" id="input_family_state" value="{{student.family_state}}" required>
+                    <label for="input_family_state">Сімейний стан</label>
+                </div>
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="idcard" id="input_idcard" value="{{student.idcard}}" required>
+                    <label for="input_idcard">Серія та номер паспорта</label>
+                </div>
+            </div>
+
+            <h1>Контактна інформація</h1>
+            <div class="input_block">
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="phone_number" id="input_phone_number" value="{{student.phone_number}}" required>
+                    <label for="input_phone_number">Номер телефону</label>
+                </div>
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="home_address" id="input_home_address" value="{{student.home_address}}" required>
+                    <label for="input_home_address">Місце проживання</label>
+                </div>
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="registration_address" id="input_registration_address" value="{{student.registration_address}}" required>
+                    <label for="input_registration_address">Місце реєстрації</label>
+                </div>
+            </div>
+
+            <h1>Програма навчання</h1>
+            <div class="input_block">
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="faculty" id="input_faculty" value="{{student.faculty}}" required>
+                    <label for="input_name">Факультет</label>
+                </div>
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="education_level" id="input_education_level" value="{{student.education_level}}" required>
+                    <label for="input_education_level">Рівень вищої освіти</label>
+                </div>
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="education_form" id="input_education_form" value="{{student.education_form}}" required>
+                    <label for="input_education_form">Форма навчання</label>
+                </div>
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="speciality" id="input_speciality" value="{{student.speciality}}" required>
+                    <label for="input_speciality">Спеціальність</label>
+                </div>
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="education_program" id="input_education_program" value="{{student.education_program}}" required>
+                    <label for="input_education_program">Освітня програма</label>
+                </div>
+
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="group" id="input_group" value="{{student.group}}" required>
+                    <label for="input_group">Група</label>
+                </div>
+            </div>
+            <h1>Інформація про зарахування</h1>
+            <div class="input_block">
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="admission_benefits" id="input_admission_benefits" value="{{student.admission_benefits}}" required>
+                    <label for="input_admission_benefits">Наявність пільг при вступі</label>
+                </div>
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="enrolment_order_number" id="input_enrolment_order_number" value="{{student.enrolment_order_number}}" required>
+                    <label for="input_enrolment_order_number">Номер наказу на зарахування</label>
+                </div>
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="enrolment_order_date" id="input_enrolment_order_date" value="{{student.enrolment_order_date}}" required>
+                    <label for="input_enrolment_order_date">Дата наказу на зарахування</label>
+                </div>
+            </div>
+            <h1>Студент закінчив</h1>
+            <div class="input_block">
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="school_name" id="input_school_name" value="{{student.school_name}}" required>
+                    <label for="input_school_name">Назва навчального закладу</label>
+                </div>
+                <div class="form-floating">
+                    <input disabled  class="form-control" name="school_graduation_date" id="input_school_graduation_date" value="{{student.school_graduation_date}}" required>
+                    <label for="input_school_graduation_date">Дата випуску</label>
+                </div>
+            </div>
+      </form>
+  </main>
+
+</body>
+</html>
