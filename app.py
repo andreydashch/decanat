@@ -22,7 +22,7 @@ def auth_check_for_role(roles):
 
     user = get_user_by_flask_current_user(current_user)
 
-    if user.email == "uncknown_email@gmail.com":
+    if user.name is None:
         logout_user()
         abort(401)
 
@@ -123,7 +123,6 @@ def update_student():
 
     student = studnet_service.get_student_by_id(std_id)
 
-
     return render_template(
         'admin/update_student.html',
         data={"user": user},
@@ -136,20 +135,10 @@ def update_student():
 def account():
     user = auth_check_for_role([TEST_ROlE])
 
-    is_confirm = False
-    std_id = request.args.get("id")
-
-    if request.method == "POST":
-        student = studnet_service.create_student(request.form)
-        student.id = std_id
-        is_confirm = studnet_service.update_student(student)
-        print(is_confirm)
-
     student = studnet_service.get_student_by_email(user.email)
     return render_template(
-        'admin/update_student.html',
+        'student/student_account.html',
         data={"user": user},
-        is_confirm=is_confirm,
         student=student
     )
 
