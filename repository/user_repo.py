@@ -19,16 +19,7 @@ def save_user(user: User) -> bool:
     return conn.exec_sql(sql)
 
 
-# TODO
-def update_user(user: User):
-    sql = ("UPDATE user SET name='{name}', email='{email}'"
-           " WHERE id={id}").format(
-        name=user.name,
-        email=user.email,
-        id=user.db_id
-    )
-
-    return conn.exec_sql(sql)
+# TODO update_user
 
 
 def get_user_by_email(email):
@@ -41,4 +32,9 @@ def get_user_by_email(email):
         email=email
     )
 
-    return conn.exec_select_sql(sql)[0]
+    res = conn.exec_select_sql(sql)
+
+    if len(res) == 0:
+        return None
+
+    return res[0]
