@@ -41,7 +41,14 @@ def load_user(user_id):
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if current_user.is_authenticated:
-        return redirect(url_for("search"))
+        user = get_user_by_flask_current_user(current_user)
+
+        if user.has_role_intersection(RolesList([ADMIN_ROLE])):
+            return redirect(url_for("search"))
+        elif user.has_role_intersection(RolesList([STUDENT_ROLE])):
+            return redirect(url_for("account"))
+        else:
+            return "TODO"
     else:
         return render_template('login.html')
 
