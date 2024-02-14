@@ -138,9 +138,20 @@ def update_student():
     )
 
 
+@app.route('/add_user', methods=['POST', 'GET'])
+def add_user():
+    user = auth_check_for_role([TEST_ROlE])
+    is_confirm = False
+    return render_template(
+        'admin/add_user.html',
+        data={"user": user},
+        is_confirm=is_confirm
+    )
+
+
 @app.route('/account', methods=['POST', 'GET'])
 def account():
-    user = auth_check_for_role([TEST_ROlE])
+    user = auth_check_for_role([STUDENT_ROLE])
 
     student = studnet_service.get_student_by_email(user.email)
     return render_template(
