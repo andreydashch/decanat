@@ -62,7 +62,7 @@ def get_users_by_role(role: str):
            "ON auth_user_roles.user_id = auth_user.id "
            "WHERE user_id IN {user_ids} "
            "GROUP BY auth_user.id;").format(
-        user_ids=user_ids
+        user_ids=user_ids if len(user_ids) != 1 else "(" + str(user_ids[0]) + ")"
     )
 
     res = conn.exec_select_sql(sql)
