@@ -53,3 +53,32 @@ def get_user_by_email(email) -> User:
 
     return res[0]
 
+
+def get_users_by_role(role: str):
+    user_ids = _get_user_ids_with_role(role)
+    sql = ("SELECT auth_user.*, array_agg(DISTINCT auth_user_roles.role) "
+           "FROM auth_user "
+           "LEFT JOIN  auth_user_roles "
+           "ON auth_user_roles.user_id = auth_user.id "
+           "WHERE user_id IN {user_ids} "
+           "GROUP BY auth_user.id;").format(
+        user_ids=user_ids
+    )
+
+    res = conn.exec_select_sql(sql)
+
+    return res
+
+
+def _get_user_ids_with_role(role: str):
+    sql = ("SELECT user_id FROM auth_user_roles "
+           "WHERE role = '{role}';").format(
+        role=role
+    )
+    res = conn.exec_select_sql(sql)
+    user_ids = []
+    for el in res:
+        user_ids.append(el[0])
+
+    return tuple(user_ids)
+
