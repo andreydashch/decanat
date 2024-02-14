@@ -87,4 +87,5 @@ def get_student_by_email(email) -> Student:
 
 
 def update_student(student: Student) -> bool:
-    return student_repo.update_student(student)
+    old_v_student = get_student_by_id(student.id)
+    return student_repo.update_student(student, old_v_student.email)
