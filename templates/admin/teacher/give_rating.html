@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='input_form.css')}}">
     <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='index.css')}}">
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='give_rating.css')}}">
 </head>
 
 <body>
@@ -55,24 +56,34 @@
         <form action="" method="post">
             <h1>Група 221 Методи обчислень</h1>
             <div class="input_block">
-                <div class="form-floating">
-                    <label>Дащик Андрій Сергійович</label>
+
+                {%for student in students_list%}
+                <div class="student_block">
+                    <div class="student_name_container">
+                        <label class="student_name">{{student.name}}</label>
+                    </div>
+
+
+                    <div class="form-floating small">
+                        <input class="form-control small" name="grade" id={{student.name}} required>
+                        <label for={{student.name}}>Бали</label>
+                    </div>
                 </div>
-                <div class="form-floating">
-                    <input class="form-control" name="grade" id="input_grade" required>
-                    <label for="input_grade">Бали</label>
-                </div>
+                {%endfor%}
+
             </div>
 
+
+
             <div class="btn_container">
-                <button class="btn btn-lg" type="submit">Додати</button>
+                <button class="btn btn-lg" type="submit">Оцінити</button>
             </div>
       </form>
   </main>
 
     {% if is_confirm %}
     <script>
-        alert("Користувача успішно додано!");
+        alert("Оцінки успішно додано!");
     </script>
     {% endif %}
 

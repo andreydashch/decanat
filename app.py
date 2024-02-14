@@ -191,6 +191,17 @@ def update_user():
     )
 
 
+@app.route('/give_rating', methods=['POST', 'GET'])
+def give_rating():
+    user = auth_check_for_role([TEST_ROlE])
+    students_list = studnet_service.get_students_by_group("211")
+    return render_template(
+        'admin/teacher/give_rating.html',
+        data={"user": user},
+        students_list=students_list
+    )
+
+
 @app.route('/account', methods=['POST', 'GET'])
 def account():
     user = auth_check_for_role([STUDENT_ROLE])
