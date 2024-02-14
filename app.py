@@ -160,6 +160,37 @@ def search_user():
     )
 
 
+@app.route('/update_user', methods=['POST', 'GET'])
+def update_user():
+    user = auth_check_for_role([TEST_ROlE])
+
+    is_confirm = False
+    user_id = request.args.get("id")
+    old_user = user_service.get_user_by_id(user_id)
+
+    if request.method == "POST":
+        upd_user = user_service.create_user(request.form)
+        upd_user.db_id = user_id
+
+        if old_user.has_role(STUDENT_ROLE):
+            upd_user.roles.add_role(STUDENT_ROLE)
+            upd_user.email = old_user.email
+
+        is_confirm = user_service.update_user(upd_user)
+
+        print(is_confirm)
+
+    upd_user = user_service.get_user_by_id(user_id)
+
+    return render_template(
+        'admin/user/update_user.html',
+        data={"user": user},
+        is_confirm=is_confirm,
+        upd_user=upd_user,
+        str_roles=' '.join(upd_user.roles.get_roles_strings())
+    )
+
+
 @app.route('/account', methods=['POST', 'GET'])
 def account():
     user = auth_check_for_role([STUDENT_ROLE])
