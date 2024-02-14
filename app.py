@@ -191,6 +191,43 @@ def update_user():
     )
 
 
+@app.route('/add_credit', methods=['POST', 'GET'])
+def add_credit():
+    user = auth_check_for_role([TEST_ROlE])
+
+    is_confirm = False
+    if request.method == "POST":
+        teacher = user_service.get_user_by_email(request.form.get("teacher_email"))
+        if teacher.has_role(TEACHER_ROLE):
+            new_credit = grades_service.create_credit(request.form, teacher.db_id)
+            is_confirm = grades_service.save_credit(new_credit)
+
+            print(is_confirm)
+
+    return render_template(
+        'admin/teacher/add_credit.html',
+        data={"user": user},
+        is_confirm=is_confirm
+    )
+
+
+@app.route('/search_credit', methods=['POST', 'GET'])
+def search_credit():
+    user = auth_check_for_role([TEST_ROlE])
+    group = request.args.get("group")
+
+    if group is None:
+        credits_list = grades_service.get_all_credits()
+    else:
+        credits_list = grades_service.get_credits_by_group(group)
+
+    return render_template(
+        'admin/teacher/search_credit.html',
+        data={"user": user},
+        credits_list=credits_list
+    )
+
+
 @app.route('/give_rating', methods=['POST', 'GET'])
 def give_rating():
     user = auth_check_for_role([TEST_ROlE])

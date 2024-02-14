@@ -38,3 +38,34 @@ def _create_grade_from_raw_without_credit(raw, credit):
     grade.id = raw[0]
 
     return grade
+
+
+def create_credit(form, teacher_id):
+    credit = Credit(None, teacher_id, form.get("term"), form.get("date"),
+                    form.get("subject"), False, form.get("group"))
+
+    return credit
+
+
+def save_credit(new_credit):
+    return grades_repo.save_credit(new_credit)
+
+
+def get_all_credits():
+    credits_list = []
+
+    for raw in grades_repo.get_all_credits():
+        credit = _create_credit_from_raw(raw)
+        credits_list.append(credit)
+
+    return credits_list
+
+
+def get_credits_by_group(group):
+    credits_list = []
+
+    for raw in grades_repo.get_credits_by_group(group):
+        credit = _create_credit_from_raw(raw)
+        credits_list.append(credit)
+
+    return credits_list
