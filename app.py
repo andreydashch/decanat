@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, abort
 from flask_login import LoginManager, current_user, login_required, logout_user
 from auth import authorization
 from auth.authorization import GoogleUser
-from entities.user_role import RolesList, TEST_ROlE, ADMIN_ROLE, STUDENT_ROLE, TEACHER_ROLE
+from entities.user_role import RolesList, TEST_ROlE, ADMIN_ROLE, STUDENT_ROLE, TEACHER_ROLE, Role
 from services import studnet_service
 from services import user_service
 
@@ -139,6 +139,24 @@ def add_user():
         'admin/user/add_user.html',
         data={"user": user},
         is_confirm=is_confirm
+    )
+
+
+@app.route('/search_user', methods=['POST', 'GET'])
+def search_user():
+    user = auth_check_for_role([TEST_ROlE])
+
+    users = []
+    role = request.args.get("role")
+    if role is not None:
+        role = Role(role)
+        if role.name is not None:
+            users = user_service.get_users_by_role(role)
+
+    return render_template(
+        'admin/user/search_user.html',
+        data={"user": user},
+        users_list=users
     )
 
 
