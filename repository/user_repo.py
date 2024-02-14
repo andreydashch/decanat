@@ -82,3 +82,20 @@ def _get_user_ids_with_role(role: str):
 
     return tuple(user_ids)
 
+
+def get_user_by_id(id):
+    sql = ("SELECT auth_user.*, array_agg(DISTINCT auth_user_roles.role) "
+           "FROM auth_user "
+           "LEFT JOIN  auth_user_roles "
+           "ON auth_user_roles.user_id = auth_user.id "
+           "WHERE user_id = {user_id} "
+           "GROUP BY auth_user.id;").format(
+        user_id=id
+    )
+
+    res = conn.exec_select_sql(sql)
+
+    if len(res) == 0:
+        return None
+
+    return res[0]
