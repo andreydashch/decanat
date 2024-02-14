@@ -46,3 +46,11 @@ def create_user(form) -> User:
 
 def save_user(new_user):
     return user_repo.save_user(new_user)
+
+
+def get_users_by_role(role):
+    user_list = []
+    for user_raw in user_repo.get_users_by_role(role.name):
+        user_list.append(_create_user_from_raw(user_raw))
+
+    return user_list
