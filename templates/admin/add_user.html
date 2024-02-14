@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>EuropeanUniversity</title>
+
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='input_form.css')}}">
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='index.css')}}">
+</head>
+
+<body>
+    <div class="top_nav">
+        <a href="/">Головна</a>
+        <a href="add_student">Додати студента</a>
+        <a href="search_student">Пошук</a>
+        <a class="active" href="add_user">Додати користувача</a>
+        <div class="auth_nav dropdown">
+            <button  class="mainmenubtn" onclick="location.href='/account'">
+                {{data["user"].name}}
+                <img class=profile_img src="{{data['user'].google_profile_pic}}" alt="Google profile pic">
+            </button>
+
+            <div class="dropdown-child">
+                <a href="/account">Особистий кабінет</a>
+                {% block content %}
+                {%for role in data["user"].roles.user_roles%}
+
+                        {% if role.name == 'Admin' %}
+                            <a href="/search_student">Адмін</a>
+                        {% elif role.name == 'Teacher' %}
+                            <a href="/teacher">Вчитель</a>
+                        {% elif role.name == 'Student' %}
+                            <a href="/account">Студент</a>
+                        {% endif %}
+
+                {%endfor%}
+                {% endblock content %}
+                <a href="/logout">Вийти</a>
+            </div>
+        </div>
+    </div>
+
+    <main class="form-sign">
+        <form action="" method="post">
+            <h1>Особиста інформація</h1>
+            <div class="input_block">
+                <div class="form-floating">
+                    <input class="form-control" name="name" id="input_name" required>
+                    <label for="input_name">ФІО</label>
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" name="email" id="input_email" required>
+                    <label for="input_email">Email адреса</label>
+                </div>
+            </div>
+
+            <h1>Ролі (Admin Teacher)</h1>
+            <div class="input_block">
+                <div class="form-floating">
+                    <input class="form-control" name="roles" id="input_roles" required>
+                    <label for="input_roles">Ролі через пробіл</label>
+                </div>
+            </div>
+
+
+            <div class="btn_container">
+                <button class="btn btn-lg" type="submit">Додати</button>
+            </div>
+      </form>
+  </main>
+
+    {% if is_confirm %}
+    <script>
+        alert("Користувача успішно додано!");
+    </script>
+    {% endif %}
+
+</body>
+</html>
