@@ -29,3 +29,20 @@ def _create_user_from_raw(raw):
     user.roles = RolesList(raw[3])
 
     return user
+
+
+def create_user(form) -> User:
+    name = form.get("name")
+    email = form.get("email")
+    roles = form.get("roles")
+    roles = roles.split(" ")
+
+    user = User(name)
+    user.email = email
+    user.roles = RolesList(roles)
+
+    return user
+
+
+def save_user(new_user):
+    return user_repo.save_user(new_user)
