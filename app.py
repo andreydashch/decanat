@@ -5,7 +5,7 @@ from auth import authorization
 from auth.authorization import GoogleUser
 from entities.user_role import RolesList, TEST_ROlE, ADMIN_ROLE, STUDENT_ROLE, TEACHER_ROLE
 from services import studnet_service
-from services.user_service import get_user_by_flask_current_user
+from services import user_service
 
 app = Flask(__name__)
 
@@ -20,7 +20,7 @@ def auth_check_for_role(roles):
     if not current_user.is_authenticated:
         abort(404)
 
-    user = get_user_by_flask_current_user(current_user)
+    user = user_service.get_user_by_flask_current_user(current_user)
 
     if user.name is None:
         logout_user()
@@ -41,7 +41,7 @@ def load_user(user_id):
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if current_user.is_authenticated:
-        user = get_user_by_flask_current_user(current_user)
+        user = user_service.get_user_by_flask_current_user(current_user)
 
         if user.has_role_intersection(RolesList([ADMIN_ROLE])):
             return redirect(url_for("search"))
@@ -141,7 +141,14 @@ def update_student():
 @app.route('/add_user', methods=['POST', 'GET'])
 def add_user():
     user = auth_check_for_role([TEST_ROlE])
+
     is_confirm = False
+    if request.method == "POST":
+        new_user = user_service.create_user(request.form)
+        is_confirm = user_service.save_user(new_user)
+
+        print(is_confirm)
+
     return render_template(
         'admin/add_user.html',
         data={"user": user},
