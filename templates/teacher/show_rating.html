@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        <a class="active" href="give_rating">Оцінити групу</a>
+        <a class="active" href="javascript:window.location.href=window.location.href">Оцінки групи</a>
 
         <div class="auth_nav dropdown">
             <button  class="mainmenubtn" onclick="location.href='/account'">
@@ -54,7 +54,7 @@
 
     <main class="form-sign">
         <form action="" method="post">
-            <h1>Група 221 Методи обчислень</h1>
+            <h1>Група {{credit.group}} {{credit.subject}} {{credit.date}}</h1>
             <div class="input_block">
 
                 {%for student in students_list%}
@@ -65,27 +65,17 @@
 
 
                     <div class="form-floating small">
-                        <input class="form-control small" name="grade" id={{student.name}} required>
-                        <label for={{student.name}}>Бали</label>
+                        <input disabled class="form-control small"
+                               name={{student.id}} id={{student.id}} value="{{grades_dict[student.id].grade_amount}}" required>
+                        <label for={{student.id}}>Бали</label>
                     </div>
                 </div>
                 {%endfor%}
 
             </div>
 
-
-
-            <div class="btn_container">
-                <button class="btn btn-lg" type="submit">Оцінити</button>
-            </div>
       </form>
   </main>
-
-    {% if is_confirm %}
-    <script>
-        alert("Оцінки успішно додано!");
-    </script>
-    {% endif %}
 
 </body>
 </html>

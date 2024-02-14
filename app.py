@@ -4,7 +4,7 @@ from flask_login import LoginManager, current_user, login_required, logout_user
 from auth import authorization
 from auth.authorization import GoogleUser
 from entities.user_role import RolesList, TEST_ROlE, ADMIN_ROLE, STUDENT_ROLE, TEACHER_ROLE, Role
-from services import studnet_service
+from services import studnet_service, grades_service
 from services import user_service
 
 app = Flask(__name__)
@@ -194,11 +194,41 @@ def update_user():
 @app.route('/give_rating', methods=['POST', 'GET'])
 def give_rating():
     user = auth_check_for_role([TEST_ROlE])
-    students_list = studnet_service.get_students_by_group("211")
+    credit = grades_service.get_credit_by_id(request.args.get("credit_id"))
+    if credit.is_closed:
+        return redirect(url_for("show_rating", credit_id=credit.id))
+
+    students_list = studnet_service.get_students_by_group(credit.group)
+
+    is_confirm = False
+
+    if request.method == "POST":
+        is_confirm = grades_service.save_grades(request.form, credit, students_list)
+        print(is_confirm)
+
     return render_template(
-        'admin/teacher/give_rating.html',
+        'teacher/give_rating.html',
         data={"user": user},
-        students_list=students_list
+        students_list=students_list,
+        credit=credit,
+        is_confirm=is_confirm
+    )
+
+
+@app.route('/show_rating', methods=['POST', 'GET'])
+def show_rating():
+    user = auth_check_for_role([TEST_ROlE])
+    credit = grades_service.get_credit_by_id(request.args.get("credit_id"))
+
+    students_list = studnet_service.get_students_by_group(credit.group)
+    grades_dict = grades_service.get_grades_by_credit(credit)
+
+    return render_template(
+        'teacher/show_rating.html',
+        data={"user": user},
+        students_list=students_list,
+        credit=credit,
+        grades_dict=grades_dict
     )
 
 
