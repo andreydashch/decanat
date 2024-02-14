@@ -105,3 +105,12 @@ body {
 .top_nav .dropdown:hover .dropdown-child {
     display: block;
 }
+
+.top_nav .left_menu {
+    float: left;
+    width: min-content;
+}
+
+.top_nav .left_text {
+    text-align: left;
+}

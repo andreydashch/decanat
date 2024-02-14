@@ -12,11 +12,20 @@
 
 <body>
     <div class="top_nav">
-        <a href="/">Головна</a>
+        <div class="dropdown left_menu">
+            <button  class="left_text mainmenubtn">
+                Меню
+            </button>
+
+            <div class="dropdown-child">
+                <a class="active" href="/search_student">Панель студента</a>
+                <a href="/search_user">Панель користувачв</a>
+            </div>
+        </div>
         <a href="add_student">Додати студента</a>
+        <a href="search_student">Пошук студента</a>
         <a  class="active" href="javascript:window.location.href=window.location.href">Редагувати студента</a>
-        <a href="search_student">Пошук</a>
-        <a href="add_user">Додати користувача</a>
+
         <div class="auth_nav dropdown">
             <button  class="mainmenubtn" onclick="location.href='/account'">
                 {{data["user"].name}}
