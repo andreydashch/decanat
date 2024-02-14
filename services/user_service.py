@@ -54,3 +54,16 @@ def get_users_by_role(role):
         user_list.append(_create_user_from_raw(user_raw))
 
     return user_list
+
+
+def update_user(upd_user):
+    return user_repo.update_user(upd_user)
+
+
+def get_user_by_id(id):
+    raw = user_repo.get_user_by_id(id)
+
+    if raw is None:
+        return User(None)
+
+    return _create_user_from_raw(raw)
