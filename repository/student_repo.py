@@ -6,7 +6,7 @@ conn = get_conn()
 
 
 def save_student(student: Student) -> bool:
-    sql = ("INSERT INTO student(name, email, enable_status, std_group,"
+    sql = ("WITH student as (INSERT INTO student(name, email, enable_status, std_group,"
            "birth_date, birth_place, citizenship, family_state, idcard,"
            "phone_number, home_address, registration_address,"
            "faculty, education_level, education_form, speciality, education_program,"
@@ -17,7 +17,14 @@ def save_student(student: Student) -> bool:
            "'{phone_number}', '{home_address}', '{registration_address}',"
            "'{faculty}', '{education_level}', '{education_form}', '{speciality}', '{education_program}',"
            "'{admission_benefits}', '{enrolment_order_number}', '{enrolment_order_date}',"
-           "'{school_name}', '{school_graduation_date}');").format(
+           "'{school_name}', '{school_graduation_date}') ), "
+           "auth_user as ("
+           "INSERT INTO auth_user(name, email) "
+           "VALUES ('{name}', '{email}') RETURNING *"
+           ")"
+           "INSERT INTO auth_user_roles(user_id, role) "
+           "VALUES ((select auth_user.id from auth_user), 'Student')"
+           ";").format(
         name=student.name,
         email=student.email,
         enable_status=student.enable_status,
@@ -83,14 +90,17 @@ def get_student_by_id(id):
     return decrypt_res
 
 
-def update_student(student):
-    sql = ("UPDATE student SET name='{name}', email='{email}', enable_status='{enable_status}', std_group='{group}',"
+def update_student(student, student_old_email):
+    sql = ("WITH student as (UPDATE student SET name='{name}', email='{email}', enable_status='{enable_status}', std_group='{group}',"
            "birth_date='{birth_date}', birth_place='{birth_place}', citizenship='{citizenship}', family_state='{family_state}', idcard='{idcard}',"
            "phone_number='{phone_number}', home_address='{home_address}', registration_address='{registration_address}',"
            "faculty='{faculty}', education_level='{education_level}', education_form='{education_form}', speciality='{speciality}', education_program='{education_program}',"
            "admission_benefits='{admission_benefits}', enrolment_order_number='{enrolment_order_number}', enrolment_order_date='{enrolment_order_date}',"
            "school_name='{school_name}', school_graduation_date='{school_graduation_date}'"
-           " WHERE id={id}").format(
+           " WHERE id={id})"
+           "UPDATE  auth_user SET name = '{name}', email = '{email}' WHERE email = '{student_old_email}'"
+           "").format(
+        student_old_email=student_old_email,
         name=student.name,
         email=student.email,
         enable_status=student.enable_status,
