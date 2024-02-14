@@ -81,7 +81,7 @@ def add_student():
         print(is_confirm)
 
     return render_template(
-        'admin/add_student.html',
+        'admin/student/add_student.html',
         data={"user": user},
         is_confirm=is_confirm
     )
@@ -95,7 +95,7 @@ def search():
     students = studnet_service.get_students_by_group(group)
 
     return render_template(
-        'admin/search_student.html',
+        'admin/student/search_student.html',
         data={"user": user},
         students_list=students
     )
@@ -117,7 +117,7 @@ def update_student():
     student = studnet_service.get_student_by_id(std_id)
 
     return render_template(
-        'admin/update_student.html',
+        'admin/student/update_student.html',
         data={"user": user},
         is_confirm=is_confirm,
         student=student
@@ -136,7 +136,7 @@ def add_user():
         print(is_confirm)
 
     return render_template(
-        'admin/add_user.html',
+        'admin/user/add_user.html',
         data={"user": user},
         is_confirm=is_confirm
     )
