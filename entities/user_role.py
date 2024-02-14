@@ -29,6 +29,10 @@ class RolesList:
                 added_role = Role(str_role)
             self.user_roles.append(added_role)
 
+    def add_role(self, role: Role):
+        if not self.has_role(role):
+            self.user_roles.append(role)
+
     def has_role(self, checked_role: Role):
         for role in self.user_roles:
             if compare_roles(role, checked_role):
