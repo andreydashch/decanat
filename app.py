@@ -101,20 +101,6 @@ def search():
     )
 
 
-@app.route('/students_list', methods=['POST', 'GET'])
-def students_list():
-    user = auth_check_for_role([TEST_ROlE])
-
-    group = request.args.get("group")
-    students = studnet_service.get_students_by_group(group)
-
-    return render_template(
-        'admin/students_list.html',
-        data={"user": user},
-        students_list=students
-    )
-
-
 @app.route('/update_student', methods=['POST', 'GET'])
 def update_student():
     user = auth_check_for_role([TEST_ROlE])
