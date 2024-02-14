@@ -54,7 +54,7 @@
 
         {%for user in users_list%}
 
-        <tr class=clickable onclick="window.location.href='/update_user?id={{user.id}}'">
+        <tr class=clickable onclick="window.location.href='/update_user?id={{user.db_id}}'">
             <td>{{user.db_id}}</td>
             <td>{{user.name}}</td>
             <td>{{user.email}}</td>
