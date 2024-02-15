@@ -234,13 +234,15 @@ def update_credit():
 
     is_confirm = False
     credit_id = request.args.get("id")
+    credit = grades_service.get_credit_by_id(credit_id)
+    teacher = user_service.get_user_by_id(credit.teacher_id)
+
+    if credit.is_closed:
+        return redirect(url_for("admin_show_closed_credit", credit_id=credit_id))
 
     if request.args.get("delete") == "true":
         if grades_service.del_credit_by_id(credit_id):
             return redirect(url_for("search_credit"))
-
-    credit = grades_service.get_credit_by_id(credit_id)
-    teacher = user_service.get_user_by_id(credit.teacher_id)
 
     if request.method == "POST":
         if teacher.has_role(TEACHER_ROLE):
@@ -256,6 +258,26 @@ def update_credit():
         data={"user": user},
         is_confirm=is_confirm,
         credit=credit,
+        teacher_email=teacher.email
+    )
+
+
+@app.route('/show_closed_credit', methods=['POST', 'GET'])
+def admin_show_closed_credit():
+    user = auth_check_for_role([TEST_ROlE])
+
+    credit = grades_service.get_credit_by_id(request.args.get("credit_id"))
+    teacher = user_service.get_user_by_id(credit.teacher_id)
+
+    students_list = studnet_service.get_students_by_group(credit.group)
+    grades_dict = grades_service.get_grades_by_credit(credit)
+
+    return render_template(
+        'admin/teacher/show_closed_credit.html',
+        data={"user": user},
+        students_list=students_list,
+        credit=credit,
+        grades_dict=grades_dict,
         teacher_email=teacher.email
     )
 

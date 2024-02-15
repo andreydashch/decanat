@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='input_form.css')}}">
     <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='index.css')}}">
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='give_rating.css')}}">
 </head>
 
 <body>
@@ -26,7 +27,7 @@
 
         <a href="add_credit">Додати залік</a>
         <a href="search_credit">Пошук заліків</a>
-        <a class="active" href="javascript:window.location.href=window.location.href">Редагування заліку</a>
+        <a class="active" href="javascript:window.location.href=window.location.href">Закритий залік</a>
 
         <div class="auth_nav dropdown">
             <button  class="mainmenubtn" onclick="location.href='/account'">
@@ -59,42 +60,54 @@
             <h1>Кредит</h1>
             <div class="input_block">
                 <div class="form-floating">
-                    <input class="form-control" name="term" id="input_term" value="{{credit.term}}"  required>
+                    <input disabled class="form-control" name="term" id="input_term" value="{{credit.term}}"  required>
                     <label for="input_term">Семестр</label>
                 </div>
                 <div class="form-floating">
-                    <input class="form-control" name="subject" id="input_subject" value="{{credit.subject}}" required>
+                    <input disabled class="form-control" name="subject" id="input_subject" value="{{credit.subject}}" required>
                     <label for="input_subject">Предмет</label>
                 </div>
 
                 <div class="form-floating">
-                    <input class="form-control" name="date" id="input_date" value="{{credit.date}}"  required>
+                    <input disabled class="form-control" name="date" id="input_date" value="{{credit.date}}"  required>
                     <label for="input_date">Дата заліку</label>
                 </div>
 
                 <div class="form-floating">
-                    <input class="form-control" name="group" id="input_group" value="{{credit.group}}" required>
+                    <input disabled class="form-control" name="group" id="input_group" value="{{credit.group}}" required>
                     <label for="input_group">Група</label>
                 </div>
                 <div class="form-floating">
-                    <input class="form-control" name="teacher_email" id="input_teacher_email" value="{{teacher_email}}" required>
+                    <input disabled class="form-control" name="teacher_email" id="input_teacher_email" value="{{teacher_email}}" required>
                     <label for="input_teacher_email">Email викладача</label>
                 </div>
 
             </div>
 
-            <div class="btn_container">
-                <button class="btn btn-lg" type="submit">Оновити</button>
-                <button class="btn btn-lg btn-del" type="button" onclick="event.preventDefault(); location+='&delete=true'">Видалити залік</button>
+      </form>
+        <form action="" method="post">
+            <h1>Оцінки</h1>
+            <div class="input_block block">
+
+                {%for student in students_list%}
+                <div class="student_block">
+                    <div class="student_name_container">
+                        <label class="student_name">{{student.name}}</label>
+                    </div>
+
+
+                    <div class="form-floating small">
+                        <input disabled class="form-control small"
+                               name={{student.id}} id={{student.id}} value="{{grades_dict[student.id].grade_amount}}" required>
+                        <label for={{student.id}}>Бали</label>
+                    </div>
+                </div>
+                {%endfor%}
+
             </div>
+
       </form>
   </main>
-
-    {% if is_confirm %}
-    <script>
-        alert("Залік успішно оновлено!");
-    </script>
-    {% endif %}
 
 </body>
 </html>
