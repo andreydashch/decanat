@@ -72,7 +72,7 @@ def logout():
 
 @app.route('/add_student', methods=['POST', 'GET'])
 def add_student():
-    user = auth_check_for_role([TEST_ROlE])
+    user = auth_check_for_role([ADMIN_ROLE])
 
     is_confirm = False
     if request.method == "POST":
@@ -89,7 +89,7 @@ def add_student():
 
 @app.route('/search_student', methods=['POST', 'GET'])
 def search():
-    user = auth_check_for_role([TEST_ROlE])
+    user = auth_check_for_role([ADMIN_ROLE])
 
     group = request.args.get("group")
     students = studnet_service.get_students_by_group(group)
@@ -103,7 +103,7 @@ def search():
 
 @app.route('/update_student', methods=['POST', 'GET'])
 def update_student():
-    user = auth_check_for_role([TEST_ROlE])
+    user = auth_check_for_role([ADMIN_ROLE])
 
     is_confirm = False
     std_id = request.args.get("id")
@@ -126,7 +126,7 @@ def update_student():
 
 @app.route('/add_user', methods=['POST', 'GET'])
 def add_user():
-    user = auth_check_for_role([TEST_ROlE])
+    user = auth_check_for_role([ADMIN_ROLE])
 
     is_confirm = False
     if request.method == "POST":
@@ -144,7 +144,7 @@ def add_user():
 
 @app.route('/search_user', methods=['POST', 'GET'])
 def search_user():
-    user = auth_check_for_role([TEST_ROlE])
+    user = auth_check_for_role([ADMIN_ROLE])
 
     users = []
     role = request.args.get("role")
@@ -162,7 +162,7 @@ def search_user():
 
 @app.route('/update_user', methods=['POST', 'GET'])
 def update_user():
-    user = auth_check_for_role([TEST_ROlE])
+    user = auth_check_for_role([ADMIN_ROLE])
 
     is_confirm = False
     user_id = request.args.get("id")
@@ -193,7 +193,7 @@ def update_user():
 
 @app.route('/add_credit', methods=['POST', 'GET'])
 def add_credit():
-    user = auth_check_for_role([TEST_ROlE])
+    user = auth_check_for_role([ADMIN_ROLE])
 
     is_confirm = False
     if request.method == "POST":
@@ -213,7 +213,7 @@ def add_credit():
 
 @app.route('/search_credit', methods=['POST', 'GET'])
 def search_credit():
-    user = auth_check_for_role([TEST_ROlE])
+    user = auth_check_for_role([ADMIN_ROLE])
     group = request.args.get("group")
 
     if group is None:
@@ -230,7 +230,7 @@ def search_credit():
 
 @app.route('/update_credit', methods=['POST', 'GET'])
 def update_credit():
-    user = auth_check_for_role([TEST_ROlE])
+    user = auth_check_for_role([ADMIN_ROLE])
 
     is_confirm = False
     credit_id = request.args.get("id")
@@ -264,7 +264,7 @@ def update_credit():
 
 @app.route('/show_closed_credit', methods=['POST', 'GET'])
 def admin_show_closed_credit():
-    user = auth_check_for_role([TEST_ROlE])
+    user = auth_check_for_role([ADMIN_ROLE])
 
     credit = grades_service.get_credit_by_id(request.args.get("credit_id"))
     teacher = user_service.get_user_by_id(credit.teacher_id)
@@ -282,9 +282,26 @@ def admin_show_closed_credit():
     )
 
 
+@app.route('/teacher/search_credit', methods=['POST', 'GET'])
+def teacher_search_credit():
+    user = auth_check_for_role([TEACHER_ROLE])
+    group = request.args.get("group")
+
+    if group is None:
+        credits_list = grades_service.get_credits_by_teacher(user.db_id)
+    else:
+        credits_list = grades_service.get_credits_by_group_and_teacher(group, user.db_id)
+
+    return render_template(
+        'admin/teacher/search_credit.html',
+        data={"user": user},
+        credits_list=credits_list
+    )
+
+
 @app.route('/give_rating', methods=['POST', 'GET'])
 def give_rating():
-    user = auth_check_for_role([TEST_ROlE])
+    user = auth_check_for_role([TEACHER_ROLE])
     credit = grades_service.get_credit_by_id(request.args.get("credit_id"))
     if credit.is_closed:
         return redirect(url_for("show_rating", credit_id=credit.id))
@@ -308,7 +325,7 @@ def give_rating():
 
 @app.route('/show_rating', methods=['POST', 'GET'])
 def show_rating():
-    user = auth_check_for_role([TEST_ROlE])
+    user = auth_check_for_role([TEACHER_ROLE])
     credit = grades_service.get_credit_by_id(request.args.get("credit_id"))
 
     students_list = studnet_service.get_students_by_group(credit.group)
