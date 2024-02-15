@@ -65,7 +65,7 @@
 
         {%for credit in credits_list%}
 
-        <tr class=clickable onclick="window.location.href='/update_credit?id={{credit.id}}'">
+        <tr class=clickable onclick="window.location.href='/update_credit?credit_id={{credit.id}}'">
             <td>{{credit.id}}</td>
             <td>{{credit.subject}}</td>
             <td>{{credit.date}}</td>

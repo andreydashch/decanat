@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
     <title>EuropeanUniversity</title>
 
     <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='bootstrap.min.css')}}">
-    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='input_form.css')}}">
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='search_student.css')}}">
     <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='index.css')}}">
-    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='give_rating.css')}}">
 </head>
 
 <body>
     <div class="top_nav">
-        <a href="teacher/search_credit">Пошук заліків</a>
-        <a class="active" href="javascript:window.location.href=window.location.href">Оцінки групи</a>
+        <a class="active" href="/teacher/search_credit">Пошук заліків</a>
+
 
         <div class="auth_nav dropdown">
             <button  class="mainmenubtn" onclick="location.href='/account'">
@@ -42,30 +40,37 @@
         </div>
     </div>
 
-    <main class="form-sign">
-        <form action="" method="post">
-            <h1>Група {{credit.group}} {{credit.subject}} {{credit.date}}</h1>
-            <div class="input_block block">
+    <main>
+        <table>
+        <tr>
+            <th>Id</th>
+            <th>Предмет</th>
+            <th>Дата</th>
+            <th>Група</th>
+            <th>Оцінено</th>
+        </tr>
 
-                {%for student in students_list%}
-                <div class="student_block">
-                    <div class="student_name_container">
-                        <label class="student_name">{{student.name}}</label>
-                    </div>
+        {%for credit in credits_list%}
 
+        <tr class=clickable onclick="window.location.href='/give_rating?credit_id={{credit.id}}'">
+            <td>{{credit.id}}</td>
+            <td>{{credit.subject}}</td>
+            <td>{{credit.date}}</td>
+            <td>{{credit.group}}</td>
+            <td>{{credit.is_closed}}</td>
+        </tr>
 
-                    <div class="form-floating small">
-                        <input disabled class="form-control small"
-                               name={{student.id}} id={{student.id}} value="{{grades_dict[student.id].grade_amount}}" required>
-                        <label for={{student.id}}>Бали</label>
-                    </div>
-                </div>
-                {%endfor%}
+        {%endfor%}
 
-            </div>
+        </table>
 
-      </form>
-  </main>
+        <div class="search_container">
+                <form action="search_credit">
+                    <input type="text" placeholder="Пошук по групі" name="group">
+                    <button class="btn" type="submit">Пошук<i class="fa fa-search"></i></button>
+                </form>
+        </div>
+    </main>
 
 </body>
 </html>

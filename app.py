@@ -45,6 +45,8 @@ def index():
 
         if user.has_role_intersection(RolesList([ADMIN_ROLE])):
             return redirect(url_for("search"))
+        elif user.has_role_intersection(RolesList([TEACHER_ROLE])):
+            return redirect(url_for("teacher_search_credit"))
         elif user.has_role_intersection(RolesList([STUDENT_ROLE])):
             return redirect(url_for("account"))
         else:
@@ -233,7 +235,7 @@ def update_credit():
     user = auth_check_for_role([ADMIN_ROLE])
 
     is_confirm = False
-    credit_id = request.args.get("id")
+    credit_id = request.args.get("credit_id")
     credit = grades_service.get_credit_by_id(credit_id)
     teacher = user_service.get_user_by_id(credit.teacher_id)
 
@@ -293,7 +295,7 @@ def teacher_search_credit():
         credits_list = grades_service.get_credits_by_group_and_teacher(group, user.db_id)
 
     return render_template(
-        'admin/teacher/search_credit.html',
+        'teacher/search_credit.html',
         data={"user": user},
         credits_list=credits_list
     )
@@ -312,7 +314,11 @@ def give_rating():
 
     if request.method == "POST":
         is_confirm = grades_service.save_grades(request.form, credit, students_list)
+        credit.is_closed = True
         print(is_confirm)
+
+    if credit.is_closed:
+        return redirect(url_for("show_rating", credit_id=credit.id))
 
     return render_template(
         'teacher/give_rating.html',
