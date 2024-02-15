@@ -12,6 +12,16 @@ def _create_credit_from_raw(raw):
     return credit
 
 
+def _create_credits_list_from_raw(raw_list):
+    credits_list = []
+
+    for raw in raw_list:
+        credit = _create_credit_from_raw(raw)
+        credits_list.append(credit)
+
+    return credits_list
+
+
 def save_grades(form, credit, students_list):
     grades = []
     for student in students_list:
@@ -52,23 +62,11 @@ def save_credit(new_credit):
 
 
 def get_all_credits():
-    credits_list = []
-
-    for raw in grades_repo.get_all_credits():
-        credit = _create_credit_from_raw(raw)
-        credits_list.append(credit)
-
-    return credits_list
+    return _create_credits_list_from_raw(grades_repo.get_all_credits())
 
 
 def get_credits_by_group(group):
-    credits_list = []
-
-    for raw in grades_repo.get_credits_by_group(group):
-        credit = _create_credit_from_raw(raw)
-        credits_list.append(credit)
-
-    return credits_list
+    return _create_credits_list_from_raw(grades_repo.get_credits_by_group(group))
 
 
 def update_credit(credit):
@@ -77,3 +75,11 @@ def update_credit(credit):
 
 def del_credit_by_id(credit_id):
     return grades_repo.del_credit_by_id(credit_id)
+
+
+def get_credits_by_teacher(teacher_id):
+    return _create_credits_list_from_raw(grades_repo.get_credits_by_teacher(teacher_id))
+
+
+def get_credits_by_group_and_teacher(group, teacher_id):
+    return _create_credits_list_from_raw(grades_repo.get_credits_by_group_and_teacher(group, teacher_id))

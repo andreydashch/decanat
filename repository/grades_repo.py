@@ -109,3 +109,19 @@ def del_credit_by_id(credit_id):
 
     return conn.exec_sql(sql)
 
+
+def get_credits_by_teacher(teacher_id):
+    sql = "SELECT * FROM credit WHERE teacher_id = '{teacher_id}';".format(
+        teacher_id=teacher_id
+    )
+
+    return conn.exec_select_sql(sql)
+
+
+def get_credits_by_group_and_teacher(group, teacher_id):
+    sql = "SELECT * FROM credit WHERE teacher_id = '{teacher_id}' AND std_group = '{group}';".format(
+        teacher_id=teacher_id,
+        group=group
+    )
+
+    return conn.exec_select_sql(sql)
