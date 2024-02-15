@@ -303,6 +303,9 @@ def teacher_search_credit():
 def give_rating():
     user = auth_check_for_role([TEACHER_ROLE])
     credit = grades_service.get_credit_by_id(request.args.get("credit_id"))
+
+    if user.db_id != credit.teacher_id:
+        abort(404)
     if credit.is_closed:
         return redirect(url_for("show_rating", credit_id=credit.id))
 
