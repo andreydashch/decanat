@@ -69,3 +69,11 @@ def get_credits_by_group(group):
         credits_list.append(credit)
 
     return credits_list
+
+
+def update_credit(credit):
+    return grades_repo.update_credit(credit)
+
+
+def del_credit_by_id(credit_id):
+    return grades_repo.del_credit_by_id(credit_id)

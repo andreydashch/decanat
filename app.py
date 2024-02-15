@@ -228,6 +228,38 @@ def search_credit():
     )
 
 
+@app.route('/update_credit', methods=['POST', 'GET'])
+def update_credit():
+    user = auth_check_for_role([TEST_ROlE])
+
+    is_confirm = False
+    credit_id = request.args.get("id")
+
+    if request.args.get("delete") == "true":
+        if grades_service.del_credit_by_id(credit_id):
+            return redirect(url_for("search_credit"))
+
+    credit = grades_service.get_credit_by_id(credit_id)
+    teacher = user_service.get_user_by_id(credit.teacher_id)
+
+    if request.method == "POST":
+        if teacher.has_role(TEACHER_ROLE):
+            credit = grades_service.create_credit(request.form, teacher.db_id)
+            credit.id = credit_id
+
+            is_confirm = grades_service.update_credit(credit)
+
+        print(is_confirm)
+
+    return render_template(
+        'admin/teacher/update_credit.html',
+        data={"user": user},
+        is_confirm=is_confirm,
+        credit=credit,
+        teacher_email=teacher.email
+    )
+
+
 @app.route('/give_rating', methods=['POST', 'GET'])
 def give_rating():
     user = auth_check_for_role([TEST_ROlE])

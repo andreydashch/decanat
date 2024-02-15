@@ -84,3 +84,9 @@ form .form-floating.focus-within {
   z-index: 2;
 }
 
+form .btn-del {
+    margin-left: 2em;
+    background-color: #BA0E2B;
+}
+
+

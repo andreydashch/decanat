@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>EuropeanUniversity</title>
+
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='input_form.css')}}">
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static', filename='index.css')}}">
+</head>
+
+<body>
+    <div class="top_nav">
+        <div class="dropdown left_menu">
+            <button  class="left_text mainmenubtn">
+                Меню
+            </button>
+
+            <div class="dropdown-child">
+                <a href="/search_student">Панель студентів</a>
+                <a href="/search_user">Панель користувачів</a>
+                <a class="active" href="/search_credit">Панель заліків</a>
+            </div>
+        </div>
+
+        <a href="add_credit">Додати залік</a>
+        <a href="search_credit">Пошук заліків</a>
+        <a class="active" href="javascript:window.location.href=window.location.href">Пошук заліків</a>
+
+        <div class="auth_nav dropdown">
+            <button  class="mainmenubtn" onclick="location.href='/account'">
+                {{data["user"].name}}
+                <img class=profile_img src="{{data['user'].google_profile_pic}}" alt="Google profile pic">
+            </button>
+
+            <div class="dropdown-child">
+                <a href="/account">Особистий кабінет</a>
+                {% block content %}
+                {%for role in data["user"].roles.user_roles%}
+
+                        {% if role.name == 'Admin' %}
+                            <a href="/search_student">Адмін</a>
+                        {% elif role.name == 'Teacher' %}
+                            <a href="/teacher">Вчитель</a>
+                        {% elif role.name == 'Student' %}
+                            <a href="/account">Студент</a>
+                        {% endif %}
+
+                {%endfor%}
+                {% endblock content %}
+                <a href="/logout">Вийти</a>
+            </div>
+        </div>
+    </div>
+
+    <main class="form-sign">
+        <form action="" method="post">
+            <h1>Кредит</h1>
+            <div class="input_block">
+                <div class="form-floating">
+                    <input class="form-control" name="term" id="input_term" value="{{credit.term}}"  required>
+                    <label for="input_term">Семестр</label>
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" name="subject" id="input_subject" value="{{credit.subject}}" required>
+                    <label for="input_subject">Предмет</label>
+                </div>
+
+                <div class="form-floating">
+                    <input class="form-control" name="date" id="input_date" value="{{credit.date}}"  required>
+                    <label for="input_date">Дата заліку</label>
+                </div>
+
+                <div class="form-floating">
+                    <input class="form-control" name="group" id="input_group" value="{{credit.group}}" required>
+                    <label for="input_group">Група</label>
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" name="teacher_email" id="input_teacher_email" value="{{teacher_email}}" required>
+                    <label for="input_teacher_email">Email викладача</label>
+                </div>
+
+            </div>
+
+            <div class="btn_container">
+                <button class="btn btn-lg" type="submit">Оновити</button>
+                <button class="btn btn-lg btn-del" type="button" onclick="event.preventDefault(); location+='&delete=true'">Видалити залік</button>
+            </div>
+      </form>
+  </main>
+
+    {% if is_confirm %}
+    <script>
+        alert("Залік успішно оновлено!");
+    </script>
+    {% endif %}
+
+</body>
+</html>
