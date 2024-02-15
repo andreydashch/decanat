@@ -41,7 +41,7 @@ def load_user(user_id):
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if current_user.is_authenticated:
-        user = user_service.get_user_by_flask_current_user(current_user)
+        user = auth_check_for_role([ADMIN_ROLE, STUDENT_ROLE, TEACHER_ROLE])
 
         if user.has_role_intersection(RolesList([ADMIN_ROLE])):
             return redirect(url_for("search"))
@@ -49,8 +49,6 @@ def index():
             return redirect(url_for("teacher_search_credit"))
         elif user.has_role_intersection(RolesList([STUDENT_ROLE])):
             return redirect(url_for("account"))
-        else:
-            return "TODO"
     else:
         return render_template('login.html')
 
