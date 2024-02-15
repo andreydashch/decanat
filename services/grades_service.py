@@ -83,3 +83,15 @@ def get_credits_by_teacher(teacher_id):
 
 def get_credits_by_group_and_teacher(group, teacher_id):
     return _create_credits_list_from_raw(grades_repo.get_credits_by_group_and_teacher(group, teacher_id))
+
+
+def get_grades_by_student_id(id):
+    grades_list = []
+
+    for raw_credit_grade in grades_repo.get_grades_by_student_id(id):
+        credit = _create_credit_from_raw(raw_credit_grade[0:7])
+        grade = _create_grade_from_raw_without_credit(raw_credit_grade[7:], credit)
+
+        grades_list.append(grade)
+
+    return grades_list

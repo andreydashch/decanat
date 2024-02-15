@@ -358,6 +358,32 @@ def account():
     )
 
 
+@app.route('/grades', methods=['POST', 'GET'])
+def grades():
+    user = auth_check_for_role([STUDENT_ROLE])
+    student = studnet_service.get_student_by_email(user.email)
+
+    term_dct = {}
+    teacher_dct = {}
+    for grade in grades_service.get_grades_by_student_id(student.id):
+        if grade.credit.term not in term_dct.keys():
+            term_dct[grade.credit.term] = []
+        term_dct[grade.credit.term].append(grade)
+
+        teacher = user_service.get_user_by_id(grade.credit.teacher_id)
+        teacher_dct[grade.credit.teacher_id] = teacher.name
+
+    term_list = list(term_dct.keys())
+    term_list.sort()
+    return render_template(
+        'student/grades.html',
+        data={"user": user},
+        term_list=term_list,
+        term_dct=term_dct,
+        teacher_dct=teacher_dct
+    )
+
+
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('errors/404.html'), 404

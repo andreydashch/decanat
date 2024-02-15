@@ -1,0 +1,28 @@
+main {
+    display: block;
+}
+h1 {
+    margin-left: -1em;
+    position: relative;
+    width:80%;
+}
+
+table {
+    width:80%;
+}
+
+table, th, td {
+  border-color:#292039;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+tr:nth-child(odd) {
+    border-color:#6b5b95;
+    background-color: #6b5b95;
+}
+
+tr:first-child {
+    border-color:#292039;
+    background-color: #292039;
+}

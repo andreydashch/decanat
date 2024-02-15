@@ -125,3 +125,22 @@ def get_credits_by_group_and_teacher(group, teacher_id):
     )
 
     return conn.exec_select_sql(sql)
+
+
+def get_grades_by_student_id(id):
+    sql = ("SELECT credit.*, grades.* "
+           "FROM credit "
+           "LEFT JOIN  grades "
+           "ON grades.credit_id = credit.id "
+           "WHERE grades.student_id  = {student_id} "
+           ";").format(
+        student_id=id
+    )
+    print("dsfasdf")
+    res = conn.exec_select_sql(sql)
+    print("dsfasdf")
+    print(res)
+    if len(res) == 0:
+        return None
+
+    return res
