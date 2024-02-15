@@ -136,10 +136,9 @@ def get_grades_by_student_id(id):
            ";").format(
         student_id=id
     )
-    print("dsfasdf")
+
     res = conn.exec_select_sql(sql)
-    print("dsfasdf")
-    print(res)
+
     if len(res) == 0:
         return None
 
